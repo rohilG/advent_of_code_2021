@@ -1,7 +1,7 @@
 from collections import Counter
 
 f = open("input.txt", "r")
-#$f = open("testInput.txt", "r")
+#f = open("testInput.txt", "r")
 dat = f.read().splitlines()
 
 seen = {}
@@ -44,6 +44,30 @@ for line in dat:
                 x1 += 1
             else:
                 x1 -= 1
+            
+            #print(str(x1)+","+str(y1)+" "+str(x2)+","+str(y2))
+        
+        if (x1,y1) not in seen:
+            seen[(x1,y1)] = 1
+        else:
+            seen[(x1,y1)] += 1
+
+    elif abs(y1 - y2) == abs(x1 - x2):
+        while x1 != x2 and y1 != y2:
+            if (x1,y1) not in seen:
+                seen[(x1,y1)] = 1
+            else:
+                seen[(x1,y1)] += 1
+            
+            if x1 < x2:
+                x1 += 1
+            else:
+                x1 -= 1
+            
+            if y1 < y2:
+                y1 += 1
+            else:
+                y1 -= 1
             
             #print(str(x1)+","+str(y1)+" "+str(x2)+","+str(y2))
         
