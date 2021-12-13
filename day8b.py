@@ -1,3 +1,5 @@
+#TODO // NOTE: THIS ONE DOESN'T WORK YET
+
 #f = open("input.txt", "r")
 f = open("testInput.txt", "r")
 dat = f.read().splitlines()
