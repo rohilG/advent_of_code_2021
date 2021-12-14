@@ -1,4 +1,4 @@
-from collections import defaultdict, Counter
+from collections import defaultdict
 from copy import deepcopy
 
 f = open("input.txt", "r")
@@ -18,23 +18,6 @@ def dictify(s, d):
 
 dictify(poly,pairs)
 
-c = "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB"
-d = defaultdict(int)
-dictify(c,d)
-
-'''
-c = "NCNBCHB" 
-d = defaultdict(int)
-dictify(c,d)
-
-
-c = "NBCCNBBBCBHCB" 
-d = defaultdict(int)
-dictify(c,d)
-'''
-
-#print(m)
-
 last= pairs
 cur = deepcopy(pairs)
 for step in range(40):
@@ -42,22 +25,17 @@ for step in range(40):
 
     for k in list(last.keys()):
         if k in m:
-            #print(k)
-            # when do we delete m[k]? How do we know it doesn't exist anymore? Well.. was it created?
-            # created if in cur but not in old
-
             cur[k[0] + m[k]] += last[k]
             cur[m[k] + k[1]] += last[k]
-            #print(last)
             cur[k] -= last[k]
             if cur[k] == 0:
                 del cur[k]
-            #print(cur)
     
     last = deepcopy(cur)
     #print(step+1, sum(v for v in cur.values()))
 
-
+# NOTE: We are double counting letters here. 
+# ex. BCB is stored as BC, CB => string has 1 C, iterating over pairs gives 2 C
 letters = defaultdict(int)
 for k,v in cur.items():
     letters[k[0]] += v
@@ -65,11 +43,14 @@ for k,v in cur.items():
 
 
 a = sorted(v for v in letters.values())
+
+# account for double counting
 if a[-1]%2:
     a[-1] += 1
 if a[0] %2:
     a[0] += 1
 
+# most often seen char from less often seen char
 print(a[-1]//2-a[0]//2)
 
 
