@@ -3,14 +3,11 @@ f = open("input.txt", "r")
 dat = f.read().splitlines()
 
 enchancement = dat[0]
-old = dat[2:]
+old = [list(d) for d in dat[2:]]
 
-def esketit(old, num):
+def esketit(old):
     mat = [['.' for _ in range(len(old[0]))] for _ in range(len(old))]
     out = [['.' for _ in range(len(old[0]))] for _ in range(len(old))]
-
-    #print(len(mat), len(mat[0]))
-    #print(len(old), len(old[0]))
 
     for i in range(len(old)):
         for j in range(len(old[0])):
@@ -39,38 +36,39 @@ def esketit(old, num):
             assert(len(cur) == 9)
 
             cur = int("".join(["1" if c == "#" else "0" for c in cur]), 2)
-
-            # first time
-            if cur == 0 and num == 0:
-                out[i+1][j+1] = "."
-            else:
+            
+            if cur != 0:
                 out[i+1][j+1] = enchancement[cur]
 
     return out
 
 def printIt(out):
     for r in out:
-        print(r)
+        print("".join(r))
 
     print()
     print()
 
 #augment it
-for i in range(len(old)):
-    old[i] = ".." + old[i] + ".."
+def augment(old):
+    for i in range(len(old)):
+        old[i] = [".","."] + old[i] + [".","."]
 
-old.insert(0, "".join(['.' for _ in range(len(old[0]))]))
-old.insert(0, "".join(['.' for _ in range(len(old[0]))]))
-#old.insert(0, "".join(['.' for _ in range(len(old[0]))]))
-#old.append("".join(['.' for _ in range(len(old[0]))]))
-old.append("".join(['.' for _ in range(len(old[0]))]))
-old.append("".join(['.' for _ in range(len(old[0]))]))
+    old.insert(0, ['.' for _ in range(len(old[0]))])
+    old.insert(0, ['.' for _ in range(len(old[0]))])
+    
+    old.append(['.' for _ in range(len(old[0]))])
+    old.append(['.' for _ in range(len(old[0]))])
 
+    return old
+
+printIt(augment(old))
+
+old = esketit(augment(old))
 printIt(old)
-out = esketit(old,0)
-printIt(out)
-out2 = esketit(out,1)
-printIt(out2)
 
-print(sum([r.count("#") for r in out2]))
+old = esketit(augment(old))
+printIt(old)
+
+print(sum([r.count("#") for r in old]))
 
